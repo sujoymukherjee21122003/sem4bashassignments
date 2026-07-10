@@ -1,0 +1,21 @@
+#Write a shell script to test whether a number input by the user is an Armstrong number or
+#not.
+
+read -p "Enter a number :: " n
+num=$n
+digit=0
+sum=0
+while ((num>0)); do
+	((digit=digit+1))
+	((num=num/10))
+done
+num=$n
+while ((num>0)); do
+	((  sum=sum+((num%10)**digit)  ))
+	((num=num/10))
+done
+if (( sum == n )); then
+	echo "$n is an Armstrong number"
+else
+	echo "$n is NOT an Armstrong number"
+fi	

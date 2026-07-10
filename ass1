@@ -1,0 +1,15 @@
+#Write a shell script to input a year which has at most four digits and test whether it is leap
+#year or not. Perform necessary input validation.
+
+#!/bin/bash
+
+read -p "Enter a year with four digits ::  "  yr
+if (( yr < 0 ||  yr > 9999 )) ; then #input validation 
+	echo "Enter a proper date"
+else
+	if (( (yr%4==0 && yr%100 != 0)||yr%400==0 )) ; then #leap year condition
+		echo "$yr is a leap year"
+	else
+		echo "$yr is NOT a leap year"
+	fi
+fi
