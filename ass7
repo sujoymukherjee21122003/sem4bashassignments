@@ -1,0 +1,28 @@
+#Write a script to generate Fibonacci series. The number of terms should be accepted as
+#command line argument.
+
+#usr/bin/bash
+
+n=$1
+
+if((n<=0));then
+	echo "Invalid number of terms"
+
+elif((n==1));then
+	echo "The Fibonacci series is :: 0."
+
+elif((n==2));then
+	echo "The Fibonacci series is :: 0,1."
+
+else
+	echo -n "The Fibonacci series is :: 0,1" #-n says to not print the \n after echo is done
+	a=0;b=1;c=0;i=3
+	while((i<=n));do #3 bcoz the first 2 terms are already printed
+		c=$((a+b))
+		echo -n ",$c"
+		a=$b
+		b=$c
+		i=$i+1
+		done
+	echo "."
+fi
