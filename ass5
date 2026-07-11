@@ -1,0 +1,43 @@
+#Write a script to generate A.P. series and G.P. series. Also find the sum of each series
+
+#!usr/bin/bash
+
+#!/bin/bash
+
+read -p  "Enter the first term :: " a
+
+read -p "Enter the common difference (for A.P.) :: "  d
+
+read -p  "Enter the common ratio (for G.P.) :: "  r
+
+read -p "Enter the number of terms :: "  n
+
+echo
+echo "A.P. Series:"
+sum_ap=0
+term=$a
+
+for ((i=1; i<=n; i++))
+do
+    echo -n "$term "
+    sum_ap=$((sum_ap + term))
+    term=$((term + d))
+done
+
+echo
+echo "Sum of A.P. = $sum_ap"
+
+echo
+echo "G.P. Series:"
+sum_gp=0
+term=$a
+
+for ((i=1; i<=n; i++))
+do
+    echo -n "$term "
+    sum_gp=$((sum_gp + term))
+    term=$((term * r))
+done
+
+echo
+echo "Sum of G.P. = $sum_gp"
