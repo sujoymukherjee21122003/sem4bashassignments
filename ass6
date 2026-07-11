@@ -1,0 +1,10 @@
+#Write a script to generate a multiplication table of a number n, where the n is passed as
+#command line argument.
+
+#!usr/bin/bash
+
+n=$1
+echo "Generating a multiplication table of $n :: "
+for thing in {1..10}; do
+	echo "$n x $thing = $((n*thing))"
+done
