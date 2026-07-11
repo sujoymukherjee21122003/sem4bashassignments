@@ -1,0 +1,43 @@
+#Write a function isPrime( ) to test the argument passed is a prime number or not. Using
+#this function, print all the prime factors of a number.
+
+#!/usr/bin/bash
+
+#returns 1 if prime
+isPrime(){
+	local n=$1 ; local i=2 #local variables have a local scope
+	while((  i*i <= n  ));do
+		if ((n%i == 0));then
+			return 0
+		fi
+		((i++))
+	done
+	return 1
+}
+
+read -p "Enter a number :: " n
+
+if ((  n < 0 ));then
+	echo "Enter a integer to find prime and we cannot find a prime factor for $n"
+elif (( n <=1 ));then
+	echo "$n is neither prime nor composite and doesn't have a prime factor"
+else
+	isPrime $n
+	r=$? #this is how we get function returns in bash
+	if(( r == 1 ));then
+		echo "$n is a prime number"
+	else
+		echo  "$n is NOT a prime number"
+	fi
+	echo -n  "The prime factors of $n is :: "
+	i=2
+	while((  i <= n  ));do
+			isPrime $i
+			r=$?
+			if ((n%i==0 && r == 1));then
+				echo -n "$i,"
+			fi
+			((i++))
+	done
+	echo
+fi	
