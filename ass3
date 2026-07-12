@@ -3,16 +3,31 @@
 
 #!/usr/bin/bash
 
-read -p "Enter the first co-ordinate (x [space] y) :: " x1 y1
-read -p "Enter the second co-ordinate (x [space] y) :: " x2 y2
-read -p "Enter the third co-ordinate (x [space] y) :: " x3 y3
-echo "point 1 :: $x1,$y1"
-echo "point 2 :: $x2,$y2"
-echo "point 3 :: $x3,$y3"
-l12=$(( ((x1-x2)**2) + ((y1-y2)**2) ))
-l23=$(( ((x2-x3)**2) + ((y2-y3)**2) ))
-l31=$(( ((x3-x1)**2) + ((y3-y1)**2) ))
-if ((  (  (x1*(y2-y3)) + (x2*(y3-y1)) + (x3*(y1-y2))  )  != 0   ));then
+read -p "Enter the first co-ordinate (x [space] y [space] z) :: " x1 y1 z1
+read -p "Enter the second co-ordinate (x [space] y [space] z) :: " x2 y2 z2
+read -p "Enter the third co-ordinate (x [space] y [space] z) :: " x3 y3 z3
+
+echo "point 1 :: $x1,$y1,$z1"
+echo "point 2 :: $x2,$y2,$z2"
+echo "point 3 :: $x3,$y3,$z3"
+
+l12=$(( ((x1-x2)**2) + ((y1-y2)**2) + ((z1-z2)**2) ))
+l23=$(( ((x2-x3)**2) + ((y2-y3)**2) + ((z2-z3)**2) ))
+l31=$(( ((x3-x1)**2) + ((y3-y1)**2) + ((z3-z1)**2) ))
+
+ux=$((x2 - x1))
+uy=$((y2 - y1))
+uz=$((z2 - z1))
+
+vx=$((x3 - x1))
+vy=$((y3 - y1))
+vz=$((z3 - z1))
+
+dx=$(( (uy * vz) - (uz * vy) ))
+dy=$(( (uz * vx) - (ux * vz) ))
+dz=$(( (ux * vy) - (uy * vx) ))
+
+if (( $dx != 0 || $dy != 0 || $dz != 0  ));then
 	echo "The given points make a Triangle"
 	if (( (l12==l23) && (l23==l31)  ));then
 		echo "It is an Equilateral Triangle"
