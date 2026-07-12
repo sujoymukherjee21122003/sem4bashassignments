@@ -1,0 +1,24 @@
+#Write a shell script to check whether a number is divisible by 11 without dividing by 11.
+#Your script should check for a valid number
+
+read -p "Enter a number :: " n
+
+if [[ $n=~^[+-]?[0-9]+$ ]];then #regex check for integer
+	s=0
+	num=n
+	i=1
+	while(( num>0 ));do
+		d=$num%10
+		s=$s+$d*$i 
+		num=$num/10 
+		i=$i*-1 
+	done
+	if (( $s==0 || $s%11==0 ));then
+		echo "$n is divisible by 11"
+	else
+		echo "$n is NOT divisible by 11"
+	fi
+else
+	echo "Enter a valid number as Input"
+fi
+	
