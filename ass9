@@ -1,0 +1,20 @@
+#Write a shell script to find the roots of a quadratic equation, 𝑎𝑥2 + 𝑏𝑥 + 𝑐 = 0,
+#considering all possible cases.
+
+#!usr/bin/bash
+
+read -p "Enter the co-efficients a,b,c of the quadratic equation (ax2 +bx + c) in order separated by spaces :: " a b c
+echo "The quadratic equation is :: ${a}x2 + ${b}x + $c"
+
+d=$((  (b**2) - (4 * a * c) )) #deternminant
+
+if (($d < 0));then
+	echo "The roots are imaginary"
+elif (( $d == 0 ));then
+	r1=$(( -b / (2 * a)  ))
+	echo "The sole root of the Quadratic is :: $r1 "
+else	
+	r1=$(awk -v a="$a" -v b="$b" -v d="$d" 'BEGIN { print (-b + sqrt(d)) / (2 * a) }')   #since bash doesnt have float numbers and math formulas
+	r2=$(awk -v a="$a" -v b="$b" -v d="$d" 'BEGIN { print (-b - sqrt(d)) / (2 * a) }')	 #we need an external command 'awk'
+	echo "The roots of the Quadratic are :: $r1 , $r2 "
+fi
