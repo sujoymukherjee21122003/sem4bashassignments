@@ -1,0 +1,25 @@
+#Write a script to implement linear search over an array of numbers.
+
+#!/bin/bash
+
+read -p "Enter the number of elements in an array :: " n
+i=0
+declare -a arr
+while (( i < n)); do
+	read -p "Enter Element[$i] :: " arr[i]
+	((i++))
+done
+echo
+read -p "Enter the number to search :: " x
+i=0
+found=0
+while (( i < n)); do
+	if ((	x == arr[i]	));then
+		echo "The number is on element[$i]"
+		 (( found++ ))
+	fi
+	((i++))
+done
+if (( found == 0 ));then
+echo "$x was not found in the array"
+fi
