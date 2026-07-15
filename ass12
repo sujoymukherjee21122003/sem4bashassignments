@@ -1,0 +1,45 @@
+#Write a shell script to perform selection sort on an array of numbers.
+
+#!/bin/bash
+
+#Selection sort algo : 
+#In the array we have a sorted and unsorted portion
+# Start from left; the whole array is unsorted portion
+#Scan for smallest term
+#Swap the smallest term to the first of the unsorted portion which is now the sorted portion
+#move the imaginary boundary of sorted and unsorted to the right 
+#Continue until sorted becomes the whole array
+
+read -p "Enter the number of terms of array :: " n
+i=0
+declare -a arr
+while (( i<n ));do
+	read -p "Element[$i] :: " arr[i]
+	(( i++ ))
+done
+
+sorted=0
+while (( sorted != n ));do
+	i=$sorted
+	j=$sorted
+	min=${arr[sorted]}
+	while (( i<n ));do
+		if (( ${arr[i]} < $min ));then
+			min=${arr[i]}
+			j=$i
+		fi
+		(( i++ ))
+	done
+	temp=${arr[sorted]}
+	arr[sorted]=${arr[j]}
+	arr[j]=$temp
+	(( sorted++ ))
+done
+
+echo
+echo "The Selection Sorted Array is :: "
+i=0
+while (( i<n ));do
+	echo "Element[$i] :: ${arr[i]}" 
+	(( i++ ))
+done
