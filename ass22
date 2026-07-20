@@ -1,0 +1,12 @@
+#Write a shell script which displays all files that are created / accessed / modified between two given dates under a given directory.
+
+#!/bin/bash
+
+# Reformat DD-MM-YYYY to YYYY-MM-DD bcoz 'find' uses the latter format
+IFS='-' read -r d1 m1 y1 <<< "$2"
+IFS='-' read -r d2 m2 y2 <<< "$3"
+
+start_date="$y1-$m1-$d1"
+end_date="$y2-$m2-$d2"
+
+find "$1" -type f -newermt "$start_date" ! -newermt "$end_date" 2>/dev/null
