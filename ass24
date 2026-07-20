@@ -1,0 +1,18 @@
+#Write a shell script which deletes all lines containing the word “linux” in the file.
+
+#!/bin/bash
+
+FILE="$1"
+[ -z "$FILE" ] || [ ! -f "$FILE" ] && echo "Usage: $0 <file>" && exit 1
+
+TEMP_FILE=$(mktemp)
+
+while IFS= read -r line || [ -n "$line" ]; do
+    # Skip line if it contains lowercase 'linux'
+    if [[ "$line" == *linux* ]]; then
+        continue
+    fi
+    echo "$line" >> "$TEMP_FILE"
+done < "$FILE"
+
+mv "$TEMP_FILE" "$FILE"
