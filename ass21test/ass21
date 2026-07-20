@@ -1,0 +1,20 @@
+#Write a shell script which displays all files with .txt extension in current directory and then change their extension name to .dat.
+
+#!/bin/bash
+
+# Enable nullglob so the pattern disappears if no files match
+shopt -s nullglob
+
+files=(*.txt)
+
+# Check if array is empty
+if [ ${#files[@]} -eq 0 ]; then
+  echo "No .txt files found!"
+  exit 0
+fi
+
+# Loop through and convert
+for file in "${files[@]}"; do
+  echo "Displaying file: $file"
+  mv "$file" "${file%.txt}.dat"
+done
