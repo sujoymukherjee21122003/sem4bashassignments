@@ -1,0 +1,19 @@
+#Write a shell script which displays a list of all files in the current directory to which you have read, write and execute permissions.
+
+#!/bin/bash
+
+echo "Files with Read, Write, and Execute permissions:"
+echo "------------------------------------------------"
+
+# Enable dotglob to include hidden files, nullglob to handle empty directories gracefully
+shopt -s dotglob nullglob
+
+for file in *; do
+    # Skip directories and symlinks—check regular files only
+    if [[ -f "$file" && ! -L "$file" ]]; then
+        # Check read (-r), write (-w), and execute (-x) permissions
+        if [[ -r "$file" && -w "$file" && -x "$file" ]]; then
+            echo "$file"
+        fi
+    fi
+done
