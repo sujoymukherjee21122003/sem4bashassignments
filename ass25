@@ -1,0 +1,19 @@
+#Write a shell script that gets executed at the moment of the user logs in 
+#and display Good Morning, Good Afternoon, Good Evening, Good Night, depending upon the time the user logs in.
+
+
+#!/bin/bash
+
+# Extract the current hour
+hour=$(date +"%H")
+
+# Determine the time of day and print the greeting
+if [ "$hour" -ge 5 ] && [ "$hour" -lt 12 ]; then
+    echo "Good Morning, $USER!"
+elif [ "$hour" -ge 12 ] && [ "$hour" -lt 17 ]; then
+    echo "Good Afternoon, $USER!"
+elif [ "$hour" -ge 17 ] && [ "$hour" -lt 21 ]; then
+    echo "Good Evening, $USER!"
+else
+    echo "Good Night, $USER!"
+fi
