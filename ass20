@@ -1,0 +1,20 @@
+#Write a shell script to convert the contents of a file from lower case to upper case.
+
+#!/bin/bash
+
+# Check if a file was provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 <filename>"
+  exit 1
+fi
+
+file="$1"
+
+# Check if the file exists
+if [ ! -f "$file" ]; then
+  echo "Error: File '$file' does not exist."
+  exit 1
+fi
+
+# Convert lowercase to uppercase using 'tr'
+tr '[:lower:]' '[:upper:]' < "$file"
