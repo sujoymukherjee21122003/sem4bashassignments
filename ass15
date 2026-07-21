@@ -1,0 +1,33 @@
+#Write a shell script that receives even number of file names. Suppose four file names are
+#supplied, them the first file should get copied into the second file & the third file should
+#get copied into the fourth file. If odd number of file name is supplied then no copying
+#should take place and error messages should be displayed
+
+#!/bin/bash
+
+#Check if the number of arguments is odd
+if [ $(($# % 2)) -ne 0 ]; then
+    echo "Error: Odd number of file names supplied. Please provide an even number of files."
+    echo "Usage: $0 <source1> <dest1> [<source2> <dest2> ...]"
+    exit 1
+fi
+
+#Check if no arguments were provided at all (0 is technically even)
+if [ $# -eq 0 ]; then
+    echo "Error: No file names supplied."
+    exit 1
+fi
+
+#Process the arguments in pairs
+while [ $# -gt 0 ]; do
+    # Check if the source file actually exists before copying
+    if [ ! -f "$1" ]; then
+        echo "Error: Source file '$1' does not exist. Skipping this pair."
+    else
+        cp "$1" "$2"
+        echo "Successfully copied: '$1' -> '$2'"
+    fi
+    
+    # Shift the positional parameters left by 2 ($3 becomes $1, $4 becomes $2, etc.)
+    shift 2
+done
