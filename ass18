@@ -1,0 +1,35 @@
+#Write a shell script to count the number of words, lines and characters of a string. 
+
+#!/bin/bash
+
+# Check if a string argument was provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 \"your string here\""
+  exit 1
+fi
+
+input_str="$1"
+
+line_count=0
+word_count=0
+char_count=0
+
+# Read string line by line using Here-String (<<<)
+while IFS= read -r line || [ -n "$line" ]; do
+  ((line_count++))
+
+  # Add line length to total character count
+  char_count=$((char_count + ${#line}))
+
+  # Count words in current line via word splitting
+  for word in $line; do
+    ((word_count++))
+  done
+done <<< "$input_str"
+
+echo "==========================="
+echo " Input String Stats"
+echo "==========================="
+echo " Lines:      $line_count"
+echo " Words:      $word_count"
+echo " Characters: $char_count"
