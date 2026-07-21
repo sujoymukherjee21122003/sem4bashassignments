@@ -1,0 +1,13 @@
+#Write a shell script which reads a word and tests whether it contains vowel or not. 
+
+#!/bin/bash
+
+# Prompt user for input
+read -rp "Enter a word: " word
+
+# Check if the word contains any upper or lower case vowels
+if [[ "$word" =~ [aeiouAEIOU] ]]; then
+    echo "The word '$word' contains at least one vowel."
+else
+    echo "The word '$word' does NOT contain any vowels."
+fi
