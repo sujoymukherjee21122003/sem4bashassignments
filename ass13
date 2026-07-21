@@ -1,0 +1,78 @@
+#Write a script to perform bubble sort on an array of numbers. Then perform binary search
+#over the array.
+
+#!/bin/bash
+
+# Bubble Sort algo:
+# Look at two neighboring terms (start from 0,1)
+# If left > right then swap 
+# Shift the comparison window
+# Lock the bubble (don't compare the last term again) and reset back to index 0
+
+# Binary Search algo:
+# Go to the middle
+# Compare with the target
+# If equal then stop
+# If middle < target then discard left side (low = mid + 1)
+# If middle > target then discard right side (high = mid - 1)
+# Continue the loop with the remaining array unless it matches
+
+read -rp "Enter the number of terms of array :: " n
+
+# Read array elements
+i=0
+declare -a arr
+while (( i < n )); do
+    read -rp "Element[$i] :: " arr[i]
+    (( i++ ))
+done
+
+# --- BUBBLE SORT ---
+# Outer loop controls the range of unsorted elements
+for (( bubble = n; bubble > 1; bubble-- )); do
+    # Inner loop compares adjacent elements up to bubble - 1
+    for (( i = 0; i < bubble - 1; i++ )); do
+        if (( arr[i] > arr[i+1] )); then
+            # Swap arr[i] and arr[i+1]
+            temp=${arr[i]}
+            arr[i]=${arr[i+1]}
+            arr[i+1]=$temp
+        fi
+    done
+done
+
+echo
+echo "The Bubble Sorted Array is :: "
+i=0
+while (( i < n )); do
+    echo "Element[$i] :: ${arr[i]}" 
+    (( i++ ))
+done
+
+# --- BINARY SEARCH ---
+echo
+read -rp "Enter the target number to search :: " target
+
+low=0
+high=$(( n - 1 ))
+found=-1
+
+while (( low <= high )); do
+    mid=$(( (low + high) / 2 ))
+
+    if (( arr[mid] == target )); then
+        found=$mid
+        break
+    elif (( arr[mid] < target )); then
+        low=$(( mid + 1 ))   # Discard left side
+    else
+        high=$(( mid - 1 ))  # Discard right side
+    fi
+done
+
+echo
+if (( found != -1 )); then
+    echo "Target $target found at sorted index :: $found"
+else
+    echo "Target $target not found in the array."
+fi
