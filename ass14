@@ -1,0 +1,149 @@
+#Write a menu driven shell script to find mean, mode, variation and standard deviation on
+#an array of integers.
+
+#!/bin/bash
+
+# Prompt user for the array of integers
+echo "Enter the integers separated by spaces:"  
+read -a arr
+n=${#arr[@]}
+
+# Validate input
+if [ "$n" -eq 0 ]; then
+    echo "Error: The array is empty. Please provide integers."
+    exit 1
+fi
+
+# Function to calculate Mean
+get_mean() {
+    local sum=0
+    for val in "${arr[@]}"; do
+        (( sum += val ))
+    done
+    
+    local mean=$(( sum / n ))
+    echo "$mean"
+}
+
+# Function to calculate Mode
+get_mode() {
+    local max_count=0
+    local mode=${arr[0]}
+    
+    # Take each element one by one
+    for ((i = 0; i < n; i++)); do
+        local current_element=${arr[i]}
+        local current_count=0
+        
+        # Scan the entire array to count how many times this element appears
+        for ((j = 0; j < n; j++)); do
+            if (( arr[j] == current_element )); then
+                ((current_count++))
+            fi
+        done
+        
+        # If this number has a higher frequency, make it the new max/mode
+        if (( current_count > max_count )); then
+            max_count=$current_count
+            mode=$current_element
+        fi
+    done
+    
+    echo "$mode"
+}
+
+# Function to calculate Variance
+get_variance() {
+    local mean=$(get_mean)
+    local sum_sq_diff=0
+    
+    # Loop through the array to find (x - mean)^2
+    for ((i = 0; i < n; i++)); do
+        local val=${arr[i]}
+        
+        # Find the difference (x - mean)
+        local diff=$(( val - mean ))
+        
+        # Square the difference
+        local sq_diff=$(( diff * diff ))
+        
+        # Add it to our running total
+        (( sum_sq_diff += sq_diff ))
+    done
+      
+    # Divide by the number of elements
+    local variance=$(( sum_sq_diff / n ))
+ 
+    echo "$variance"
+}
+
+# Function to calculate Standard Deviation
+get_std_dev() {
+    local num=$(get_variance)
+    
+    # Safeguard for 0
+    if (( num <= 0 )); then
+        echo "0"
+        return
+    fi
+    
+    # Start with the variance itself as the first "guess"
+    local guess=$num
+    local next_guess
+    
+    while true; do
+        # Newton's Method formula: next_guess = (guess + (num / guess)) / 2
+        next_guess=$(( (guess + num / guess) / 2 ))
+        
+        # If the new guess is equal to or greater than the current guess, 
+        # we have hit the integer floor and found our square root.
+        if (( next_guess >= guess )); then
+            echo "$guess"
+            break
+        fi
+        
+        # Update the guess for the next loop
+        guess=$next_guess
+    done
+}
+
+# Menu loop
+while true; do
+    echo ""
+    echo "=============================="
+    echo "      STATISTICS MENU         "
+    echo "=============================="
+    echo "1. Find Mean"
+    echo "2. Find Mode"
+    echo "3. Find Variance"
+    echo "4. Find Standard Deviation"
+    echo "5. Exit"
+    echo "=============================="
+    read -p "Enter your choice (1-5): " choice
+
+    case $choice in
+        1)
+            result=$(get_mean)
+            echo "Result -> Mean: $result"
+            ;;
+        2)
+            result=$(get_mode)
+            echo "Result -> Mode: $result"
+            ;;
+        3)
+            result=$(get_variance)
+            echo "Result -> Variance: $result"
+            ;;
+        4)
+            result=$(get_std_dev)
+            echo "Result -> Standard Deviation: $result"
+            ;;
+        5)
+            echo "Exiting program. Goodbye!"
+            exit 0
+            ;;
+        *)
+            echo "Invalid choice! Please enter a number between 1 and 5."
+            ;;
+    esac
+done
