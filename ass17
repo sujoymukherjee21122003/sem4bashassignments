@@ -1,0 +1,27 @@
+#Write a shell script to reverse a string. Then test whether it is a palindrome or not. 
+
+#!/bin/bash
+
+# Read input string
+read -rp "Enter a string: " input_string
+
+# Get the length of the string
+length=${#input_string}
+
+reversed_string=""
+
+# Loop backwards from the last character to index 0
+for (( i=length-1; i>=0; i-- )); do
+    # Extract 1 character at index i and append it
+    reversed_string="${reversed_string}${input_string:i:1}"
+done
+
+echo "Original String : $input_string"
+echo "Reversed String : $reversed_string"
+
+#Comparison for palindrome check
+if [ "$input_string" = "$reversed_string" ]; then
+    echo "Result          : It is a PALINDROME!"
+else
+    echo "Result          : It is NOT a palindrome."
+fi
